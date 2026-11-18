@@ -1,0 +1,57 @@
+{
+  "version": 1,
+  "author": "SmartPark IoT",
+  "editor": "wokwi",
+  "parts": [
+    { "type": "wokwi-esp32-devkit-v1", "id": "esp", "top": 0, "left": 0, "attrs": {} },
+    { "type": "wokwi-lcd1602", "id": "lcd", "top": -160, "left": 180, "attrs": { "pins": "i2c" } },
+    { "type": "wokwi-servo", "id": "servo", "top": 240, "left": 260, "attrs": {} },
+    { "type": "wokwi-hc-sr04", "id": "us_ent", "top": -170, "left": -260, "attrs": { "distance": "50" } },
+    { "type": "wokwi-hc-sr04", "id": "us_sai", "top": 250, "left": -260, "attrs": { "distance": "300" } },
+    { "type": "wokwi-led", "id": "led_verde", "top": 40, "left": 260, "attrs": { "color": "green" } },
+    { "type": "wokwi-led", "id": "led_vermelho", "top": 40, "left": 320, "attrs": { "color": "red" } },
+    { "type": "wokwi-resistor", "id": "r_verde", "top": 130, "left": 230, "rotate": 90, "attrs": { "value": "220" } },
+    { "type": "wokwi-resistor", "id": "r_vermelho", "top": 130, "left": 290, "rotate": 90, "attrs": { "value": "220" } },
+    { "type": "wokwi-pushbutton", "id": "btn_entrada", "top": 60, "left": -200, "attrs": { "color": "green", "label": "ENTRADA" } },
+    { "type": "wokwi-pushbutton", "id": "btn_saida", "top": 130, "left": -200, "attrs": { "color": "blue", "label": "SAIDA" } },
+    { "type": "wokwi-pushbutton", "id": "btn_manut", "top": 200, "left": -200, "attrs": { "color": "yellow", "label": "MANUT" } }
+  ],
+  "connections": [
+    [ "esp:TX0", "$serialMonitor:RX", "", [] ],
+    [ "esp:RX0", "$serialMonitor:TX", "", [] ],
+
+    [ "lcd:GND", "esp:GND.1", "black", [] ],
+    [ "lcd:VCC", "esp:VIN", "red", [] ],
+    [ "lcd:SDA", "esp:D21", "green", [] ],
+    [ "lcd:SCL", "esp:D22", "blue", [] ],
+
+    [ "servo:GND", "esp:GND.1", "black", [] ],
+    [ "servo:V+", "esp:VIN", "red", [] ],
+    [ "servo:PWM", "esp:D13", "orange", [] ],
+
+    [ "us_ent:VCC", "esp:VIN", "red", [] ],
+    [ "us_ent:GND", "esp:GND.2", "black", [] ],
+    [ "us_ent:TRIG", "esp:D5", "violet", [] ],
+    [ "us_ent:ECHO", "esp:D18", "gray", [] ],
+
+    [ "us_sai:VCC", "esp:VIN", "red", [] ],
+    [ "us_sai:GND", "esp:GND.2", "black", [] ],
+    [ "us_sai:TRIG", "esp:D19", "violet", [] ],
+    [ "us_sai:ECHO", "esp:D23", "gray", [] ],
+
+    [ "esp:D26", "r_verde:1", "green", [] ],
+    [ "r_verde:2", "led_verde:A", "green", [] ],
+    [ "led_verde:C", "esp:GND.1", "black", [] ],
+    [ "esp:D27", "r_vermelho:1", "red", [] ],
+    [ "r_vermelho:2", "led_vermelho:A", "red", [] ],
+    [ "led_vermelho:C", "esp:GND.1", "black", [] ],
+
+    [ "btn_entrada:1.r", "esp:D32", "green", [] ],
+    [ "btn_entrada:2.r", "esp:GND.2", "black", [] ],
+    [ "btn_saida:1.r", "esp:D33", "blue", [] ],
+    [ "btn_saida:2.r", "esp:GND.2", "black", [] ],
+    [ "btn_manut:1.r", "esp:D25", "gold", [] ],
+    [ "btn_manut:2.r", "esp:GND.2", "black", [] ]
+  ],
+  "dependencies": {}
+}

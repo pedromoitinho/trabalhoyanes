@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SmartPark IoT</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <header>
+    <h1>SmartPark IoT</h1>
+    <nav><a href="/admin.html">Painel do operador</a></nav>
+  </header>
+  <main class="layout">
+    <div id="map" aria-label="Mapa dos estacionamentos"></div>
+    <aside>
+      <section id="aviso" class="aviso" hidden></section>
+      <section id="conta"></section>
+      <section>
+        <h2>Reservar vaga</h2>
+        <form id="form-reserva">
+          <label>Estacionamento <select id="lote" required></select></label>
+          <div class="linha">
+            <label>Chegada prevista <input type="datetime-local" id="chegada" required></label>
+            <label>Saída prevista <input type="datetime-local" id="saida" required></label>
+          </div>
+          <button type="button" id="btn-consultar" class="secundario">Consultar disponibilidade e preço</button>
+          <p id="cotacao" role="status"></p>
+          <button type="submit">Reservar e pagar</button>
+          <p class="nota">Preço calculado no servidor pela tarifa cadastrada. A reserva só é confirmada depois que o servidor verifica o pagamento.</p>
+        </form>
+      </section>
+      <section>
+        <h2>Minhas reservas</h2>
+        <ul id="reservas" class="lista"></ul>
+      </section>
+    </aside>
+  </main>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+          integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <script src="/common.js"></script>
+  <script src="/index.js"></script>
+</body>
+</html>

@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SmartPark IoT — Operador</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <header>
+    <h1>SmartPark IoT · Operador</h1>
+    <nav><a href="/">Dashboard do motorista</a></nav>
+  </header>
+  <main class="admin">
+    <section id="login"></section>
+    <div id="painel" hidden>
+      <section><h2>Ocupação</h2><div id="ocupacao"></div></section>
+      <section><h2>Alertas</h2><div id="alertas"></div></section>
+      <section><h2>Reconciliações de pagamento</h2><div id="reconciliacoes"></div></section>
+      <section><h2>Dispositivos</h2><div id="dispositivos"></div></section>
+      <section><h2>Reservas recentes</h2><div id="lista-reservas"></div></section>
+      <section>
+        <h2>Cadastrar estacionamento</h2>
+        <form id="form-local" class="grade">
+          <label>Nome <input name="name" required maxlength="80"></label>
+          <label>Endereço <input name="address" required maxlength="160"></label>
+          <label>Latitude <input name="latitude" type="number" step="any" required></label>
+          <label>Longitude <input name="longitude" type="number" step="any" required></label>
+          <label>Tarifa por hora (R$) <input name="rate" type="number" step="0.01" min="0.01" required></label>
+          <label>Horário <input name="opening_hours" value="24h" placeholder="24h ou 06:00-23:00" required></label>
+          <label>Vagas <input name="spaces" type="number" min="1" max="200" value="5" required></label>
+          <label>Prefixo das vagas <input name="prefix" value="C" maxlength="3" required></label>
+          <button>Cadastrar</button>
+          <p id="msg-local" role="status"></p>
+        </form>
+      </section>
+      <section>
+        <h2>Cadastrar dispositivo (ESP32)</h2>
+        <form id="form-dispositivo" class="grade">
+          <label>device_id <input name="device_id" pattern="[a-z0-9\-]{3,40}" required placeholder="gate-nova-01"></label>
+          <label>Estacionamento <select name="parking_lot_id" id="sel-lote"></select></label>
+          <button>Cadastrar</button>
+          <p id="msg-dispositivo" role="status"></p>
+        </form>
+      </section>
+    </div>
+  </main>
+  <script src="/common.js"></script>
+  <script src="/admin.js"></script>
+</body>
+</html>
