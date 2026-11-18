@@ -1,0 +1,12 @@
+{
+  "name": "smartpark-iot",
+  "private": true,
+  "engines": {
+    "node": "22.x"
+  },
+  "scripts": {
+    "heroku-postbuild": "npm --prefix backend ci",
+    "start": "npm --prefix backend start",
+    "test": "npm --prefix backend test"
+  }
+}

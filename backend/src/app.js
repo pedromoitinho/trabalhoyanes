@@ -26,8 +26,12 @@ export function createApp({ db, mp, telegram, config, now = Date.now }) {
   const core = createCore({ db, mp, telegram, notifier, config, now });
   const app = express();
   app.disable('x-powered-by');
-  app.set('trust proxy', 'loopback');
+  app.set('trust proxy', config.trustProxy ?? 'loopback');
 
+  app.use((req, res, next) => {
+    if (req.get('x-forwarded-proto') === 'http') return res.redirect(308, `https://${req.get('host')}${req.originalUrl}`);
+    next();
+  });
   app.use((req, res, next) => {
     const start = Date.now();
     res.on('finish', () => console.log(`${req.method} ${req.path} ${res.statusCode} ${Date.now() - start}ms`));

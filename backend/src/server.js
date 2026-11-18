@@ -19,6 +19,7 @@ const num = (key, fallback) => Number(env[key] ?? fallback);
 const port = num('PORT', 3000);
 const config = {
   baseUrl: (env.APP_BASE_URL || `http://localhost:${port}`).replace(/\/$/, ''),
+  trustProxy: /^\d+$/.test(env.TRUST_PROXY ?? '') ? Number(env.TRUST_PROXY) : env.TRUST_PROXY || 'loopback',
   sessionSecret: env.SESSION_SECRET,
   deviceSecret: env.DEVICE_SHARED_SECRET,
   mpWebhookSecret: env.MERCADOPAGO_WEBHOOK_SECRET,

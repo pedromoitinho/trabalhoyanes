@@ -126,6 +126,34 @@ o console do Firebase, arquivos de credencial ou portas administrativas.
 
 **Wokwi:** veja [`docs/WOKWI.md`](docs/WOKWI.md).
 
+### Deploy no Heroku
+
+O `package.json` da raiz instala o backend (`heroku-postbuild`) e inicia com `npm start`. No Heroku não há arquivo de
+credencial: o JSON da conta de serviço vai na variável `FIREBASE_SERVICE_ACCOUNT` em base64. Com `TRUST_PROXY=1`, o
+IP real do cliente é usado no limite de requisições e acessos por `http://` são redirecionados para `https://`.
+
+```bash
+heroku create smartpark-iot
+```
+```bash
+heroku config:set TRUST_PROXY=1 DB_DRIVER=firestore FIREBASE_PROJECT_ID=yanes-5c31c APP_BASE_URL=https://<app>.herokuapp.com
+```
+```bash
+heroku config:set FIREBASE_SERVICE_ACCOUNT="$(base64 -w0 /caminho/service-account.json)"
+```
+```bash
+heroku config:set SESSION_SECRET=<segredo> DEVICE_SHARED_SECRET=<segredo>
+```
+Mercado Pago e Telegram: as mesmas variáveis do `.env.example`, também com `heroku config:set`.
+```bash
+git push heroku main
+```
+
+Depois do deploy, `APP_BASE_URL` substitui o túnel: use essa URL no webhook do Mercado Pago, em
+`npm run telegram:webhook` (rodado localmente com o mesmo `APP_BASE_URL`) e em `API_BASE` no sketch do Wokwi.
+No plano Eco o dyno dorme após 30 min sem acesso: a primeira requisição demora alguns segundos e o alerta de
+dispositivo offline pode disparar nesse intervalo. Use um dyno Basic na apresentação.
+
 ## Segurança aplicada
 - Segredos só em variáveis de ambiente; `.env`, JSON de conta de serviço, chaves e logs no [`.gitignore`](.gitignore).
   O teste T15 procura tokens do Mercado Pago/Telegram e chaves privadas no repositório.
