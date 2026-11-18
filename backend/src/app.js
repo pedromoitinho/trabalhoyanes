@@ -41,7 +41,7 @@ export function createApp({ db, mp, telegram, config, now = Date.now }) {
     res.set({
       'X-Content-Type-Options': 'nosniff',
       'X-Frame-Options': 'DENY',
-      'Referrer-Policy': 'no-referrer',
+      'Referrer-Policy': 'strict-origin-when-cross-origin',
       'Content-Security-Policy':
         "default-src 'self'; script-src 'self' https://unpkg.com; style-src 'self' 'unsafe-inline' https://unpkg.com; " +
         "img-src 'self' data: https://tile.openstreetmap.org https://unpkg.com; connect-src 'self'; frame-ancestors 'none'",
