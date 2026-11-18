@@ -128,26 +128,28 @@ o console do Firebase, arquivos de credencial ou portas administrativas.
 
 ### Deploy no Heroku
 
-O `package.json` da raiz instala o backend (`heroku-postbuild`) e inicia com `npm start`. No Heroku não há arquivo de
-credencial: o JSON da conta de serviço vai na variável `FIREBASE_SERVICE_ACCOUNT` em base64. Com `TRUST_PROXY=1`, o
-IP real do cliente é usado no limite de requisições e acessos por `http://` são redirecionados para `https://`.
+Tudo pelo painel web, sem CLI e sem Docker: o `package.json` da raiz faz o Heroku detectar Node.js, instala o
+backend (`heroku-postbuild`) e inicia com `npm start`.
 
-```bash
-heroku create smartpark-iot
-```
-```bash
-heroku config:set TRUST_PROXY=1 DB_DRIVER=firestore FIREBASE_PROJECT_ID=yanes-5c31c APP_BASE_URL=https://<app>.herokuapp.com
-```
-```bash
-heroku config:set FIREBASE_SERVICE_ACCOUNT="$(base64 -w0 /caminho/service-account.json)"
-```
-```bash
-heroku config:set SESSION_SECRET=<segredo> DEVICE_SHARED_SECRET=<segredo>
-```
-Mercado Pago e Telegram: as mesmas variáveis do `.env.example`, também com `heroku config:set`.
-```bash
-git push heroku main
-```
+1. dashboard.heroku.com → **New → Create new app**.
+2. Aba **Settings → Config Vars → Reveal Config Vars** e adicione:
+
+   | KEY | VALUE |
+   |---|---|
+   | `DB_DRIVER` | `firestore` |
+   | `FIREBASE_PROJECT_ID` | `yanes-5c31c` |
+   | `FIREBASE_SERVICE_ACCOUNT` | conteúdo inteiro do JSON da conta de serviço (colado como está) |
+   | `APP_BASE_URL` | `https://<app>.herokuapp.com` (aparece em Settings → Domains) |
+   | `TRUST_PROXY` | `1` |
+   | `SESSION_SECRET`, `DEVICE_SHARED_SECRET` | os mesmos do `.env` local (mantém válida a chave do Wokwi) |
+   | Mercado Pago / Telegram | as mesmas variáveis do `.env.example`, quando configurados |
+
+3. Aba **Deploy → Deployment method: GitHub** → conecte o repositório → **Deploy Branch** (`main`).
+   Opcional: **Enable Automatic Deploys** para publicar a cada push na `main`.
+4. **Open app** e confira o mapa. Erros aparecem em **More → View logs**.
+
+Com `TRUST_PROXY=1`, o limite de requisições usa o IP real do cliente e acessos por `http://` são redirecionados
+para `https://`.
 
 Depois do deploy, `APP_BASE_URL` substitui o túnel: use essa URL no webhook do Mercado Pago, em
 `npm run telegram:webhook` (rodado localmente com o mesmo `APP_BASE_URL`) e em `API_BASE` no sketch do Wokwi.
